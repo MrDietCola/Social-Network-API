@@ -2,7 +2,14 @@ const { User, Thought } = require('../models');
 
 module.exports = {
 // GET to get all thoughts
-
+async getThoughts(req, res) {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+},
 
 // GET to get a single thought by its _id
 

@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('./config/connection');
 const routes = require('./routes');
 
-const cwd = process.cwd();
+// const cwd = process.cwd();
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -13,6 +13,6 @@ app.use(routes);
 
 db.once('open', () => {
   app.listen(PORT, () => {
-    console.log(`API server for ${activity} running at http://localhost:${PORT}!`);
+    console.log(`API server running at http://localhost:${PORT}!`);
   });
 });
