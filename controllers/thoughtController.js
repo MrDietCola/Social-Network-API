@@ -72,7 +72,7 @@ async updateThought(req, res) {
 // DELETE to remove a thought by its _id
 async deleteThought(req, res) {
   try {
-    const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
+    const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId });
 
     if (!thought) {
       return res.status(404).json({ message: 'No thought with this id!' });
@@ -116,6 +116,30 @@ async addReaction(req, res) {
 },
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
+async removeReaction(req, res) {
+  try {
+    const thoughtToUpdate = await Thought.findOne({ _id: req.params.thoughtId });
+    console.log(thoughtToUpdate);
+    if (!thoughtToUpdate) {
+      return res.status(404).json({ message: 'No thought with this id!' });
+    }
+    const thoughtReactions = thoughtToUpdate.reactions.map(reaction => reaction._id.toString())
+    console.log(thoughtReactions, req.params.reactionId);
+    if (thoughtReactions.includes(req.params.reactionId)) {
+      await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: req.params.reactionId } },
+        { new: true }
+        );
+      } else {
+        return res.json({ message: 'This thought does not include that reaction!' });
+      }
 
+    res.json({ message: 'Reaction successfully removed!' });
+  } catch (err) {
+    console.error(err); 
+    res.status(500).json(err);
+  }
+},
 
 }
