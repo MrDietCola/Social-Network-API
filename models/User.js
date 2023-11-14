@@ -7,7 +7,16 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       required: true, 
-
+      trim: true
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true, 
+      // validate: {
+      //   validator: () => Promise.resolve(false),
+      //   message: 'Email validation failed'
+      // }
     },
     thoughts: [
       {

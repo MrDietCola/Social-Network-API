@@ -26,6 +26,18 @@ async getSingleUser(req, res) {
   }
 },
 
+// POST a new user:
+async createUser(req, res) {
+  try {
+    const dbUserData = await User.create(req.body);
+    // await req.body.email.validate();
+    res.json(dbUserData);
+  } catch (err) {
+    res.status(500).json(err);
+    // assert.equal(error.errors['email'].message, 'Email validation failed');
+  }
+},
+
 // PUT to update a user by its _id
 
 
