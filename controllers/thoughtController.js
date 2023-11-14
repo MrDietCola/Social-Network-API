@@ -42,7 +42,7 @@ async createThought(req, res) {
       });
     }
 
-    res.json('Thought Created');
+    res.json({ message: 'Thought successfully created!' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -55,14 +55,14 @@ async updateThought(req, res) {
     const thought = await Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
-      { runValidators: true, new: true }
+      { new: true }
     );
 
     if (!thought) {
       return res.status(404).json({ message: 'No thought with this id!' });
     }
 
-    res.json(thought);
+    res.json({ message: 'Thought successfully updated!' });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -97,7 +97,23 @@ async deleteThought(req, res) {
 },
 
 // POST to create a reaction stored in a single thought's reactions array field
+async addReaction(req, res) {
+  try {
+    const reaction = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { new: true }
+    );
 
+    if (!reaction) {
+      return res.status(404).json({ message: 'No reaction with this id!' });
+    }
+
+    res.json({ message: 'Reaction successfully created!' });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+},
 
 // DELETE to pull and remove a reaction by the reaction's reactionId value
 

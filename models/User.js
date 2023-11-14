@@ -11,11 +11,15 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
+      required: true,
       unique: true,
-      required: true, 
+      match: /\S+@\S+\.(com|net|edu|org)/,
       // validate: {
-      //   validator: () => Promise.resolve(false),
-      //   message: 'Email validation failed'
+      //   validator: function(value) {
+      //     // Email validation logic
+      //     return /\S+@\S+\.(com|net|edu|org)/.test(value);
+      //   },
+      //   message: 'Invalid email format'
       // }
     },
     thoughts: [

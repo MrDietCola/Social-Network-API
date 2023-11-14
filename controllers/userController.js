@@ -29,12 +29,14 @@ async getSingleUser(req, res) {
 // POST a new user:
 async createUser(req, res) {
   try {
-    const dbUserData = await User.create(req.body);
-    // await req.body.email.validate();
-    res.json(dbUserData);
+    const dbUserData = await User.create(req.body,
+      //  { runValidators: true } 
+       );
+       
+    res.json({ message: "User created" });
+    
   } catch (err) {
-    res.status(500).json(err);
-    // assert.equal(error.errors['email'].message, 'Email validation failed');
+    res.status(500).json({ message: err.message});
   }
 },
 
@@ -44,14 +46,14 @@ async updateUser(req, res) {
     const user = await User.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
-      { runValidators: true, new: true }
+      { new: true }
     );
 
     if (!user) {
       return res.status(404).json({ message: 'No user with this id!' });
     }
 
-    res.json(user);
+    res.json({ message: "User updated" });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -85,7 +87,23 @@ async deleteUser(req, res) {
 },
 
 // POST to add a new friend to a user's friend list
+async addFriend(req, res) {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { new: true }
+    );
 
+    if (!user) {
+      return res.status(404).json({ message: 'No user with this id!' });
+    }
+
+    res.json({ message: 'Friend successfully added!' });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+},
 
 // DELETE to remove a friend from a user's friend list
 
