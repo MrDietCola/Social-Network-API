@@ -3,7 +3,7 @@ const {
   getThoughts,
   getSingleThought,
   createThought,
-  // updateThought,
+  updateThought,
   // deleteThought,
   // addReaction,
   // removeReaction,
@@ -19,8 +19,8 @@ router
 router
   .route('/:thoughtId')
   .get(getSingleThought)
-  // .delete(deleteThought)
-//   .put(updateThought);
+  .put(updateThought)
+  // .delete(deleteThought);
 
 // // /api/:thoughtId/reactions
 // router
