@@ -59,7 +59,30 @@ async updateUser(req, res) {
 },
 
 // DELETE to remove user by its _id and associated thoughts
+async deleteUser(req, res) {
+  try {
+    const user = await User.findOneAndRemove({ _id: req.params.userId });
 
+    if (!user) {
+      return res.status(404).json({ message: 'No user with this id!' });
+    }
+
+    const thoughts = await Thought.deleteMany(
+      { username: req.body.username },
+    );
+    
+    if (!thoughts) {
+      return res
+        .status(404)
+        .json({ message: 'This user had no thoughts to delete' });
+    }
+
+    res.json({ message: 'User successfully deleted!' });
+  } catch (err) {
+    console.error(err); 
+    res.status(500).json(err);
+  }
+},
 
 // POST to add a new friend to a user's friend list
 
