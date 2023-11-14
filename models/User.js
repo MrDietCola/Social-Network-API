@@ -6,7 +6,7 @@ const userSchema = new Schema(
     username: {
       type: String,
       unique: true,
-      require: true, 
+      required: true, 
 
     },
     thoughts: [
@@ -18,7 +18,7 @@ const userSchema = new Schema(
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'friend',
+        ref: 'user',
       },
     ],
   },
@@ -34,7 +34,7 @@ userSchema
   .virtual('friendCount')
   // Getter function to get number of friends
   .get(function () {
-    return friends.length;
+    return this.friends.length;
   })
 
 // Initialize our User model
