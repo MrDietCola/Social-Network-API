@@ -13,14 +13,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      match: /\S+@\S+\.(com|net|edu|org)/,
-      // validate: {
-      //   validator: function(value) {
-      //     // Email validation logic
-      //     return /\S+@\S+\.(com|net|edu|org)/.test(value);
-      //   },
-      //   message: 'Invalid email format'
-      // }
+      // match: /\S+@\S+\.(com|net|edu|org)/,
+      validate: {
+        validator: function(value) {
+          // Email validation logic
+          return /\S+@\S+\.(com|net|edu|org)/.test(value);
+        },
+        message: 'Invalid email format'
+      }
     },
     thoughts: [
       {
