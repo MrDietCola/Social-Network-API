@@ -1,6 +1,6 @@
 # Social-Network-API
 
-https://github.com/MrDietCola/Social-Network-API
+https://github.com/Seidler93/Social-Network-API
 
 https://youtu.be/dq1uC9_c9nY
 
